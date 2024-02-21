@@ -1,0 +1,38 @@
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB  
+from sklearn.datasets import make_classification
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import (
+    accuracy_score,
+    confusion_matrix,
+    ConfusionMatrixDisplay,
+    f1_score,
+    classification_report
+)
+import pandas as pd
+data = pd.read_csv('play_tennis.csv')
+data = data.drop("day",axis=1)
+display(data)
+lb  = LabelEncoder()
+lb.fit(['outlook','temp','humidity','wind'])
+LabelEncoder()
+for i in data.columns:
+    data[i] = lb.fit_transform(data[i])
+x=data.drop("play",axis=1)
+y= data['play']
+display(x.head())
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=1)
+display(x_train)
+display(y_train)
+display(x_test)
+display(y_test)
+model = GaussianNB ()
+model.fit(x_train,y_train)
+predicted = model.predict(x_test)
+display(predicted)
+accuary = accuracy_score(predicted,y_test)
+display(accuary)
+f1 = f1_score(predicted,y_test,average='weighted')
+display(f1)
